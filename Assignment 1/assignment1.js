@@ -1,1 +1,0 @@
-console.log("This is assignment 1 different JS file");
