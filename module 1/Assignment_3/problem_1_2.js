@@ -4,16 +4,21 @@
 //    ○ Print adult to the console if age is above 18
 
 let age = 25;
-if (age <= 12){
+if (0 < age <= 12){
   console.log("child");
 }else if (age >= 13 && age <=18){
   console.log("teen");
-}else{
+}else if (age > 18){
   console.log("adult");
+}else {
+  console.log("Invalid age");
 }
 
 // Using Switch Case
 switch (age) {
+  case (age === 0):
+    console.log("Invalid age");
+    break;
   case (age <= 12):
     console.log("child");
     break;

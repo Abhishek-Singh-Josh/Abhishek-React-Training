@@ -31,7 +31,7 @@
 // sort(users, “id”, “desc”) //Should return users sorted by id in
 // descending order
 function sortById(user_arr, key, order){
-  if(user_arr == []) { return [];};
+  if(user_arr.length === 0) { return [];};
   for (let i = 0; i < user_arr.length; i++) {
     for (let j= i+1; j < user_arr.length; j++) {
       if (order == 'desc') {
@@ -59,7 +59,7 @@ console.log(sortById([], 'id', 'desc'));
 
 //First Solution in Brute force
 function sortByName(user_arr, key, order){
-  if(user_arr == []) { return [];};
+  if(user_arr.length === 0) { return [];};
   for (let i = 0; i < user_arr.length; i++) {
     for (let j= i+1; j < user_arr.length; j++) {
       if (order == 'desc') {
@@ -86,7 +86,7 @@ function sortByName(user_arr, key, order){
 
 //Second way
 function sortByName(user_arr, key, order){
-  if(user_arr == []) { return [];};
+  if(user_arr.length === 0) { return [];};
   for (let i = 0; i < user_arr.length; i++) {
     for (let j= i+1; j < user_arr.length; j++) {
       if (order == 'desc') {

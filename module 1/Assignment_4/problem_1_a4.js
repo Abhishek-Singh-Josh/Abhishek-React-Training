@@ -32,3 +32,18 @@ console.log(JSON.stringify(null)); // it returns null
 // 4. What happens if you pass a regular/invalid JSON string to JSON.parse? What will happen if such
 // an invalid function runs in the program? Will other parts of the code execute correctly after
 // that?
+
+let str1 = "{'key1': 'This is my error value'}"
+
+function toCauseError(str1) {
+  console.log(JSON.parse(str1))
+  let str2 = '{"key": "This is my String"}'
+  console.log(JSON.parse(str2))
+}
+  
+toCauseError(str1)
+
+// If we pass a regular JSON String into JSON.parse, it will return the object in the prsed form of its.
+
+// But if we pass an invalid JSON string to JSON.parse, it will throw an error and code execution will stop at 
+// that point and no further code of line will get executed

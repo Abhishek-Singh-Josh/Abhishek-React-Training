@@ -10,9 +10,9 @@ function callbackFunc(){
 }
 
 test(callbackFunc) // Here callbackFunc is passed as a reference to the test function.
-                  // It will call the callback function when executed.
+                  // It will not call the callback function after test function gets executed.
 
-test(() => callbackFunc()) // here the output we are getting as 'Calling the callback function' and returns 5.
+test(() => callbackFunc()) // here the output we are getting as 'Inside the test function'.
 
 test(callbackFunc()) // In this case the callback function is getting called first and then the return value 
                     // is passed to the test function.
@@ -24,8 +24,12 @@ test(callbackFunc()) // In this case the callback function is getting called fir
 // ○ test(() => callbackFunc())
 
 // ○ What happens when you return callback() from the test function? 
-//  - it will give the same output as above function calls.
+//  - In case of test(callbackFunc) it will run the test function and then execute the callback function.
+//  - In case of test(callbackFunc()) it will run the callback function first and then return the value to the test function
+// and then throw error for "callbackis not a function".
+//  - In case of test(() => callbackFunc()) it will run the test function and then execute the callback function.
+
 // ○ What happens when you return callback from the test function?
-//  - it will log nothing for first case because the callback function is not getting called correctly when test function executes.
-//  - it will give same output for second case as above.
-//  - for third case i need some clarity(**Have doubt**)
+//  - It will log nothing for first case because the callback function is not getting called correctly when test function executes.
+//  - In second case it will call the callback first ad then return the value to the test function and then test function gets executed.
+//  - In third case Test function will execute first but callback function will not be executed.

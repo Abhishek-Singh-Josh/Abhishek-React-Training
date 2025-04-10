@@ -13,8 +13,8 @@ let user_obj = {
 // Using structuredClone will clone the object and creates a new copy which reference to a new in-memory location
 // and does not affect the original object.
 function makeCopy(user_object) {
-  let copied_user = structuredClone(user_object);
   user_object.address.details[0] = "5";
+  let copied_user = structuredClone(user_object);
   return copied_user;
 };
 
