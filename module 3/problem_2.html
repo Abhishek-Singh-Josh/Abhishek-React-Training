@@ -1,0 +1,25 @@
+<html>
+  <button id='speed_up_video'>Speed Up</button>
+</html>
+
+<script>
+  let buttonElem = document.getElementById('speed_up_video');
+  buttonElem.style.cursor = 'pointer';
+  document.body.appendChild(buttonElem);
+
+  function changeVideoSpeed() {
+      videoElems = document.querySelectorAll('video');
+      videoElemSpeed = videoElem[0].playbackRate;
+      
+      if (videoElemSpeed === 10.0){
+        videoElems.forEach(item => item.playbackRate = 1); 
+      }else if (videoElemSpeed < 2.0){
+        videoElems.forEach(item => item.playbackRate += 2); 
+      };
+      
+  }
+
+  buttonElem.onclick = changeVideoSpeed; 
+  //place this code in the browser console for any youtube video and it will speed up the video by 0.25x
+  // and when it reaches 2.0x speed, it will reset the speed to 1.0x.
+</script>
