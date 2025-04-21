@@ -1,0 +1,113 @@
+<!-- Create a form to submit a blog to a mock API (reqres.in) -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Blog Submission</title>
+      <style>
+          body {
+              font-family: Arial, sans-serif;
+              background-color: #f4f4f4;
+              margin: 0;
+              padding: 20px;
+          }
+
+          h1 {
+              color: #333;
+          }
+
+          form {
+              background: #fff;
+              padding: 20px;
+              border-radius: 5px;
+              box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          }
+
+          label {
+              display: block;
+              margin-bottom: 10px;
+          }
+
+          input[type="text"],
+          textarea {
+              width: 100%;
+              padding: 10px;
+              margin-bottom: 10px;
+              border-radius: 5px;
+              border: 1px solid #ccc;
+          }
+
+          button {
+              background-color: #28a745;
+              color: white;
+              padding: 10px 15px;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+          }
+
+          button:hover {
+              background-color: #218838;
+          }
+      </style>
+  </head>
+  <body>
+    <form id="blog-form">
+      <h1>Submit Your Blog Here</h1>
+      <label for="title">Title</label><br>
+      <input type="text" id="title" name="title" required><br><br>
+      <label for="content">Content</label><br>
+      <textarea id="content" name="content" rows="4" required></textarea><br><br>
+      <label for="author">Author</label><br>
+      <input type="text" id="author" name="author" required><br><br>
+      <label for="email">Email</label><br>
+      <input type="text" id="email" name="email" required><br><br>
+      <button id="submit-blog" type="submit">Submit</button>
+    </form>
+  </body>
+
+  <script>
+    let formData = document.getElementById('blog-form');
+    let title = document.getElementById('title');
+    let content = document.getElementById('content');
+    let author = document.getElementById('author');
+    let email = document.getElementById('email');
+    // let submitButton = document.getElementById('submit-blog');
+    
+
+    function submitBlogFunc(e) {
+      e.preventDefault(); // Prevent the default form submission
+
+      // Get the values from the form
+      fetch('https://reqres.in/api/blogs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          title: title.value,
+          content: content.value,
+          author: author.value,
+          email: email.value
+        })
+      }).then(response => {
+        debugger;
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+      }).then(data => {
+        console.log('Success:', data);
+        alert('Blog submitted successfully!');
+      }).catch(error => {
+        console.log('Error:', error);
+        alert('There was a problem with your submission.');
+      });
+    }
+
+    formData.addEventListener("submit", submitBlogFunc);
+  </script>
+  
+</html>
