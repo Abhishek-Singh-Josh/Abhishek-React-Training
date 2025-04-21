@@ -1,0 +1,159 @@
+<!-- Create a blog list page that fetches a list of users from a mock API and adds them to a
+table on the page after loading. Add a button to sort the users by name. Add an input to
+filter the table by search. (Optional: Show “Loading...” or a loading spinner on the screen
+till the data loads) -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Page</title>
+  <style>
+    table {
+      width: 50%;
+      border-style: solid;
+      border-width: 2px;
+      text-align: left;
+      /* border-collapse: collapse; */
+    }
+
+    #user-search-div {
+      display: inline-block;
+      width: 30%;
+      margin-bottom: 0px;
+    }
+
+    #sort-users {
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>Blog List</h1>
+    <table id="blog-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Posted Year</th>
+        </tr>
+      </thead>
+      <tbody id="blog-data-list">
+        <!-- Blog data will be populated here -->
+      </tbody>
+    </table>
+  </div>
+  <br>
+  <div>
+    <h1>User List</h1>
+    <div id="user-search-div">
+      <input type="text" id="search-user" placeholder="Search By Name"> &nbsp;
+      <button id="search-user-btn">Search</button>
+    </div> &nbsp; &nbsp; &nbsp;
+    <button id="sort-users">Sort By Name</button><br><br>
+    <table id="user-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody id="user-data-list">
+        <!-- User data will be populated here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const userSearchBtn = document.getElementById('search-user-btn');
+    const userSearchInput = document.getElementById('search-user');
+    const sortButton = document.getElementById('sort-users');
+
+    function fetchBlogsAndUsers() {
+      fetch('https://reqres.in/api/blogs').then(response => {
+        if (!response.ok){
+          throw new Error('Network response was not ok');
+        }
+
+        return response.json();
+      }).then((data) => {
+        renderBlogs(data);
+        fetch("https://reqres.in/api/users").then(response2 =>{
+          if (!response2.ok){
+            throw new Error('Network response was not ok');
+          }
+
+          return response2.json();
+        }).then ((data2) => {
+          renderTable(data2.data);
+        }).catch(error => {
+          console.error('There was a problem to fetch user data:', error);
+        }); 
+      }).catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+      });
+    }
+
+    function renderBlogs(blogs) {
+      const userTableBody = document.getElementById('blog-data-list');
+      userTableBody.innerHTML = '';
+      blogs.data.forEach(blog => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${blog.name}</td><td>${blog.year}</td>`;
+        userTableBody.appendChild(row);
+      })
+    }
+
+    function renderTable(users) {
+      const userTableBody = document.getElementById('user-data-list');
+      userTableBody.innerHTML = '';
+      users.forEach(user => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${user.first_name} ${user.last_name}</td><td>${user.email}</td>`;
+        userTableBody.appendChild(row);
+      });
+    }
+
+    function searchUser(e) {
+      e.preventDefault();
+      const userTableBody = document.getElementById('user-data-list');
+      const inputValue = userSearchInput.value.toLowerCase();
+      const rows = userTableBody.getElementsByTagName('tr');
+      rowArray = Array.from(rows);
+      filteredRowArray = rowArray.filter(
+        row => row.getElementsByTagName('td')[0].textContent.toLowerCase().indexOf(inputValue) > -1
+      );
+      console.log("This is filtered user data:", filteredRowArray);
+      userTableBody.innerHTML = '';
+      filteredRowArray.forEach(row => {
+        userTableBody.appendChild(row);
+      })
+    }
+
+    function sortUsers(e) {
+      e.preventDefault();
+      const userTableBody = document.getElementById('user-data-list');
+      console.log(userTableBody);
+      const rows = Array.from(userTableBody.getElementsByTagName('tr'));
+      console.log(rows);
+      rows.sort((a, b) => {
+        const nameA = a.getElementsByTagName('td')[0].textContent.toLowerCase();
+        const nameB = b.getElementsByTagName('td')[0].textContent.toLowerCase();
+        return nameA.localeCompare(nameB);
+      });
+      userTableBody.innerHTML = '';
+      rows.forEach(row => userTableBody.appendChild(row));
+    }
+
+    window.onload = function() {
+      fetchBlogsAndUsers();
+    }
+
+    userSearchBtn.addEventListener('click', searchUser);
+
+    sortButton.addEventListener('click', sortUsers);
+
+  </script>
+</body>
+</html>
