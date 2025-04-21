@@ -74,8 +74,6 @@
     let content = document.getElementById('content');
     let author = document.getElementById('author');
     let email = document.getElementById('email');
-    // let submitButton = document.getElementById('submit-blog');
-    
 
     function submitBlogFunc(e) {
       e.preventDefault(); // Prevent the default form submission
@@ -93,7 +91,6 @@
           email: email.value
         })
       }).then(response => {
-        debugger;
         if (!response.ok) {
           throw new Error('Network response was not ok ' + response.statusText);
         }
